@@ -1,4 +1,4 @@
-# 🎮 Screen Remote – QR-Based Desktop Media Controller
+![mobile-ui](https://github.com/user-attachments/assets/3b263866-ffcd-4f3a-afc6-71f8e54771e9)# 🎮 Screen Remote – QR-Based Desktop Media Controller
 
 A QR-based desktop media controller built with **Flask, CustomTkinter, and PyAutoGUI** that allows you to control your PC's media playback directly from your phone.
 
@@ -25,11 +25,10 @@ The project combines:
 
 ### 🖥 Host Interface (QR Generation + Mode Control)
 
-<img src="screenshots/host-ui.png" width="650">
 
 ### 📱 Mobile Controller Interface
 
-<img src="screenshots/mobile-ui.png" width="400">
+![mobile-ui](https://github.com/user-attachments/assets/843f871a-93ce-455c-aab1-494c3b6804d1)
 
 ---
 
