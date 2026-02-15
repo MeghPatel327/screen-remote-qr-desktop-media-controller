@@ -1,0 +1,5 @@
+flask>=2.0
+pyautogui>=0.9
+customtkinter>=5.0
+pillow>=9.0
+qrcode>=7.0

@@ -1,0 +1,351 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>Video Controller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary: #22335c;
+      --primary-hover: #345494;
+      --primary-active: #3cbcfc;
+      --primary-toggle: #1fba6e;
+      --subtitle-on: #be791f;
+      --black-bg: #17181d;
+      --text: #fff;
+      --shadow: 0 6px 22px rgba(0,0,0,0.7), 0 1.5px 5px rgba(0,0,0,0.15);
+      --corner: 16px;
+      --main-width: 430px;
+    }
+    body {
+      background: var(--black-bg);
+      min-height: 100vh;
+      color: var(--text);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+    }
+    .container {
+      max-width: var(--main-width);
+      margin: 0 auto;
+      padding: 0 8px 28px 8px;
+      text-align: center;
+    }
+    header {
+      text-align: left;
+      padding: 22px 0 10px 0;
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 2rem;
+      margin-right: 13px;
+      cursor: pointer;
+      transition: color .15s;
+      filter: drop-shadow(0 4px 10px #0008);
+    }
+    .back-btn:hover {
+      color: var(--primary-active);
+    }
+    .top-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+    .button {
+      background: var(--primary);
+      color: var(--text);
+      border: none;
+      border-radius: var(--corner);
+      box-shadow: var(--shadow);
+      font-size: 1.15rem;
+      font-weight: 500;
+      padding: 13px 22px;
+      margin: 0;
+      cursor: pointer;
+      transition: background .15s, box-shadow .18s, color .15s;
+      user-select: none;
+      outline: none;
+    }
+    .button.toggle-on {
+      background: var(--primary-toggle) !important;
+      color: #fff !important;
+    }
+    .button.subtitle-on {
+      background: var(--subtitle-on) !important;
+      color: #fff !important;
+    }
+    .button:active { background: var(--primary-active);}
+    .button:hover { background: var(--primary-hover);}
+    .icon-btn { padding: 13px 19px; }
+    .vol-row {
+      display: flex; 
+      justify-content: center; 
+      margin: 0 0 10px 0;
+    }
+    .vol-btn {
+      width: 120px;
+      font-size: 1.13rem;
+    }
+    .main-controller-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 10px;
+    }
+    .side-btn {
+      width: 110px;
+      font-size: 1.06rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 13px 12px;
+    }
+    .controller-center {
+      width: 74px;
+      height: 74px;
+      background: #222325;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.05rem;
+      font-weight: 700;
+      color: var(--text);
+      box-shadow: 0 10px 36px #0009, 0 3px 12px #0004;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      margin: 0 2px;
+      transition: background .16s, box-shadow 0.13s, color .14s;
+    }
+    .controller-center.toggle-on {
+      background: var(--primary-toggle) !important;
+      color: #fff !important;
+    }
+    .controller-center:active,.controller-center:focus {
+      background: var(--primary-active);
+    }
+    .controller-center:hover {
+      background: var(--primary-hover);
+    }
+    .control-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 17px auto 0 auto;
+      max-width: 330px;
+    }
+    .control-grid .button {
+      font-size: 1.1rem;
+      border-radius: 12px;
+      padding: 15px 0;
+      box-shadow: var(--shadow);
+    }
+    .control-grid .button.audio-btn {
+      grid-column: span 3;
+      max-width: 65%;
+      margin: 0 auto;
+    }
+    .numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 16px auto 0 auto;
+      max-width: 300px;
+    }
+    .numpad .button {
+      font-size: 1.17rem;
+      border-radius: 10px;
+      padding: 16px 0;
+      box-shadow: var(--shadow);
+    }
+    .bottom-row {
+      display: flex;
+      gap: 15px;
+      margin: 15px auto 0 auto;
+      max-width: 300px;
+    }
+    .bottom-row .button {
+      flex: 1;
+      font-size: 1.14rem;
+      box-shadow: var(--shadow);
+      border-radius: 10px;
+    }
+    .icon { vertical-align: middle; font-size: 1.17em;}
+    .icon-mute   { font-size: 1.17em;}
+    .icon-fs     { font-size: 1.23em;}
+    .icon-back   { font-size: 1.13em;}
+    .icon-forward{ font-size: 1.13em;}
+    @media (max-width: 480px) {
+      :root { --main-width: 97vw; }
+      .vol-row, .main-controller-row, .bottom-row, .numpad, .control-grid { max-width: 98vw; gap: 9px;}
+      .button { font-size: 1rem;}
+    }
+  </style>
+<style type="text/css" id="operaUserStyle"></style><style type="text/css"></style></head>
+
+<script>
+if (screen.width > 768) {
+    alert('Please use phone/tablet!');
+    window.location.href = '/';
+}
+</script>
+
+<body>
+  <div class="container">
+    <header>
+      <button class="back-btn" onclick="goBack()" aria-label="Back">←</button>
+      <span>Video Controller</span>
+    </header>
+    <div class="top-actions">
+      <button class="button" id="esc-btn">ESC</button>
+      <button class="button" id="close-btn">Close this tab</button>
+      <button class="button icon-btn" id="mute-btn" title="Mute / Unmute">
+        <span id="mute-icon">🔈</span>
+      </button>
+    </div>
+    <!-- Volume + -->
+    <div class="vol-row">
+      <button class="button vol-btn" id="vol-up-btn">Vol +</button>
+    </div>
+    <!-- Main controls row: Back, Play/Pause, Fwd -->
+    <div class="main-controller-row">
+      <button class="button side-btn" id="backward-btn">
+        <span class="icon icon-back">⏪</span> Back
+      </button>
+      <button class="controller-center" id="playpause-btn">
+        <span id="playpause-icon">▶</span>
+      </button>
+      <button class="button side-btn" id="forward-btn">
+        Fwd <span class="icon icon-forward">⏩</span>
+      </button>
+    </div>
+    <!-- Volume - -->
+    <div class="vol-row">
+      <button class="button vol-btn" id="vol-down-btn">Vol -</button>
+    </div>
+    <!-- Control grid -->
+    <div class="control-grid">
+      <button class="button" id="speed-minus-btn">− Speed</button>
+      <button class="button" id="subtitle-btn">
+        <span style="font-size:1.23em; font-weight:600;">💬Sub</span>
+      </button>
+      <button class="button" id="speed-plus-btn">Speed +</button>
+      <button class="button" id="reload-btn">↻</button>
+      <button class="button" id="center-btn">Center</button>
+      <button class="button icon-btn" id="fullscreen-btn">
+        <span id="fullscreen-icon">⛶</span>
+      </button>
+      <!-- Audio track button always visible -->
+      <button class="button audio-btn" id="audio-track-btn">
+        <span style="font-weight:600;">🎵 Audio Track</span>
+      </button>
+    </div>
+    <!-- Number pad & prev/next -->
+    <div class="numpad">
+      <button class="button num-btn">1</button>
+      <button class="button num-btn">2</button>
+      <button class="button num-btn">3</button>
+      <button class="button num-btn">4</button>
+      <button class="button num-btn">5</button>
+      <button class="button num-btn">6</button>
+      <button class="button num-btn">7</button>
+      <button class="button num-btn">8</button>
+      <button class="button num-btn">9</button>
+      <button class="button" id="prev-btn">⏮</button>
+      <button class="button num-btn">0</button>
+      <button class="button" id="next-btn">⏭</button>
+    </div>
+  </div>
+  <script>
+    function goBack() { window.history.back(); }
+
+    // Persistent toggle: Play/Pause
+    const playpauseBtn = document.getElementById('playpause-btn');
+    const playpauseIcon = document.getElementById('playpause-icon');
+    let isPlaying = false;
+    playpauseBtn.addEventListener('click', function() {
+      isPlaying = !isPlaying;
+      playpauseBtn.classList.toggle('toggle-on', isPlaying);
+      playpauseIcon.innerHTML = isPlaying ? "&#10073;&#10073;" : "&#9654;";
+      sendCommand('playpause', isPlaying);
+    });
+
+    // Persistent toggle: Mute (starts unmuted icon)
+    const muteBtn = document.getElementById('mute-btn');
+    const muteIcon = document.getElementById('mute-icon');
+    let isMuted = false;
+    muteBtn.addEventListener('click', function() {
+      isMuted = !isMuted;
+      muteBtn.classList.toggle('toggle-on', isMuted);
+      muteIcon.innerHTML = isMuted ? "&#128263;" : "&#128264;";
+      sendCommand('mute', isMuted);
+    });
+
+    // Persistent toggle: Subtitle
+    const subtitleBtn = document.getElementById('subtitle-btn');
+    let isSubOn = false;
+    subtitleBtn.addEventListener('click', function() {
+      isSubOn = !isSubOn;
+      subtitleBtn.classList.toggle('subtitle-on', isSubOn);
+      sendCommand('subtitle', isSubOn);
+    });
+
+    // Fullscreen icon toggle
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const fullscreenIcon = document.getElementById('fullscreen-icon');
+    let isFull = false;
+    fullscreenBtn.addEventListener('click', function() {
+      isFull = !isFull;
+      fullscreenIcon.innerHTML = isFull ? "&#10006;" : "&#9974;";
+      sendCommand('fullscreen', isFull);
+    });
+
+    // Other simple command buttons
+    [
+      ['subtitle-btn', 'subtitle'],
+      ['esc-btn', 'escape'],
+      ['close-btn', 'close_tab'],
+      ['vol-up-btn', 'volume_up'],
+      ['vol-down-btn', 'volume_down'],
+      ['backward-btn', 'backward'],
+      ['forward-btn', 'forward'],
+      ['speed-minus-btn', 'speed_minus'],
+      ['speed-plus-btn', 'speed_plus'],
+      ['reload-btn', 'reload'],
+      ['center-btn', 'center_click'],
+      ['audio-track-btn', 'audio_track'],
+      ['prev-btn', 'previous'],
+      ['next-btn', 'next'],
+    ].forEach(([id, cmd]) =>
+      document.getElementById(id).onclick = () => sendCommand(cmd)
+    );
+    // Numeric buttons
+    document.querySelectorAll('.num-btn').forEach(btn => {
+      btn.onclick = () => sendCommand('num', btn.innerText);
+    });
+
+    // (stub) backend command function
+    function sendCommand(cmd, value=null) {
+      // Example: POST to Flask or trigger a websocket
+      fetch('/command', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({command: cmd, value: value})});
+      console.log({command: cmd, value: value});
+    }
+    const socket = io();
+    socket.on('command_received', function(data) {
+        // Update button states for all commands
+        updateButtonState(data.command, data.value);
+    });
+
+  </script>
+</body>
+</html>

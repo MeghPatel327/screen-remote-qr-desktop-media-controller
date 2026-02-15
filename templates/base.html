@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %} App {% endblock %}</title>
+  <style>
+    body {
+      background-color: #121212; /* Dark background */
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px 30px;
+      background-color: #1e1e1e; /* Slightly lighter dark */
+      border-radius: 8px;
+      box-shadow: 0 0 25px 2px #0f0f0f;
+    }
+    button {
+      background-color: #3a3a3a;
+      border: none;
+      color: #ddd;
+      padding: 12px 18px;
+      margin: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #575757;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 28px;
+      font-weight: 700;
+      color: #f0f0f0;
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #bbb;
+    }
+  </style>
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
